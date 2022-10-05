@@ -25,24 +25,24 @@ logger.info('Authorized Roles : %O', APP_AUTHORIZED_ROLES)
 
 let middlewares = {}
 
-middlewares.pf = auth({
-    authRequired: false,
-    baseURL: APP_BASE_URL,
-    issuerBaseURL: OIDC_PF_ISSUER_BASE_URL,
-    clientID: OIDC_PF_CLIENT_ID,
-    clientSecret: OIDC_PF_CLIENT_SECRET,
-    secret: OIDC_ENCRYPTION_KEY_SECRET,
-    idpLogout: true,
-    idTokenSigningAlg: 'ES256',
-    authorizationParams: {
-        response_type: 'code',
-        scope: 'openid profile address email phone',
-    },
-    session: {
-        rollingDuration: OIDC_SESSION_MAX_IDLE_TIME_IN_SEC,
-        cookie: { path: '/' }
-    },
-})
+// middlewares.pf = auth({
+//     authRequired: false,
+//     baseURL: APP_BASE_URL,
+//     issuerBaseURL: OIDC_PF_ISSUER_BASE_URL,
+//     clientID: OIDC_PF_CLIENT_ID,
+//     clientSecret: OIDC_PF_CLIENT_SECRET,
+//     secret: OIDC_ENCRYPTION_KEY_SECRET,
+//     idpLogout: true,
+//     idTokenSigningAlg: 'ES256',
+//     authorizationParams: {
+//         response_type: 'code',
+//         scope: 'openid profile address email phone',
+//     },
+//     session: {
+//         rollingDuration: OIDC_SESSION_MAX_IDLE_TIME_IN_SEC,
+//         cookie: { path: '/' }
+//     },
+// })
 
 middlewares.ohid = auth({
     authRequired: false,
@@ -130,7 +130,7 @@ export const ensureLoggedInMiddleware = (req, res, next) => {
     next()
 }
 
-oidc.get(API_END_POINT.USER,  (req, res, next) => {
+oidc.get('/user',  (req, res, next) => {
 
     try {
         const user = req.oidc.user

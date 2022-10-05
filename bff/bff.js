@@ -12,6 +12,8 @@ import { services } from './services'
 import { proxies } from './proxy'
 import { API_END_POINT } from './api'
 import { read } from 'fs'
+import {IdTokenClaims} from "openid-client";
+import {AccessToken} from "express-openid-connect";
 
 const APP_PORT = process.env.APP_PORT || 3006
 
@@ -44,10 +46,20 @@ app.use(compression())
 
 //app.use(services)
 
+app.get('/', (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    res.set('content-type', 'text/json');
+    res.send(JSON.stringify({
+      idToken: req.oidc.idToken,
+      accessToken: req.oidc.accessToken,
+      idTokenClaims: req.oidc.idTokenClaims,
+      user: req.oidc.user,
+  }, null, 2))
+  }
+})
+
 /* app.get(API_END_POINT.EVERY_THING_ELSE, function (req, res) {
     res.sendFile(path.join(__dirname, '..', 'build', 'index.html'))
 })
  */
-app.listen(APP_PORT, () => {
-    logger.info('App is listening for requests on port : %d', APP_PORT);
-})
+module.exports = app;
