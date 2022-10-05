@@ -12,8 +12,6 @@ import { services } from './services'
 import { proxies } from './proxy'
 import { API_END_POINT } from './api'
 import { read } from 'fs'
-import {IdTokenClaims} from "openid-client";
-import {AccessToken} from "express-openid-connect";
 
 const APP_PORT = process.env.APP_PORT || 3006
 
